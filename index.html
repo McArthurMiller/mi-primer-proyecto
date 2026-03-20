@@ -1,10 +1,207 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Mi Portafolio</title>
-  </head>
-  <body>
-    <h1>Hola, Soy Arturo</h1>
-    <p>Este es mi portafolio en GitHub Pages</p>
-  </body>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arturo Jiménez — Data Scientist</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #080c12;
+      --surface: #0e1420;
+      --border: #1a2236;
+      --accent: #00d4ff;
+      --accent2: #7c3aed;
+      --accent3: #10b981;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--mono); min-height: 100vh; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
+    .blob { position: fixed; border-radius: 50%; filter: blur(120px); opacity: 0.12; pointer-events: none; z-index: 0; }
+    .blob-1 { width: 500px; height: 500px; background: var(--accent); top: -100px; right: -100px; }
+    .blob-2 { width: 400px; height: 400px; background: var(--accent2); bottom: 100px; left: -150px; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; background: rgba(8,12,18,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: var(--sans); font-weight: 800; font-size: 1.1rem; color: var(--accent); letter-spacing: -0.02em; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
+    section { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 6rem 2rem; }
+    #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-top: 8rem; }
+    .hero-label { font-size: 0.7rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.6s ease 0.2s forwards; }
+    .hero-name { font-family: var(--sans); font-size: clamp(3rem, 8vw, 6rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; margin-bottom: 1rem; opacity: 0; animation: fadeUp 0.6s ease 0.4s forwards; }
+    .hero-name span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-title { font-size: 1.1rem; color: var(--muted); margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.6s ease 0.6s forwards; }
+    .hero-title b { color: var(--accent3); font-weight: 400; }
+    .terminal-line { font-size: 0.85rem; color: var(--accent3); background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent3); padding: 1rem 1.5rem; border-radius: 4px; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.6s ease 0.8s forwards; }
+    .terminal-line .prompt { color: var(--accent); margin-right: 0.5rem; }
+    .cursor { display: inline-block; width: 8px; height: 1em; background: var(--accent); margin-left: 2px; animation: blink 1s step-end infinite; vertical-align: text-bottom; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.6s ease 1s forwards; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: 4px; font-family: var(--mono); font-size: 0.8rem; text-decoration: none; letter-spacing: 0.05em; transition: all 0.2s; cursor: pointer; border: none; }
+    .btn-primary { background: var(--accent); color: var(--bg); font-weight: 700; }
+    .btn-primary:hover { background: #00b8d9; transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .btn-outline:hover { background: rgba(0,212,255,0.08); transform: translateY(-2px); }
+    .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; }
+    .section-num { font-size: 0.7rem; color: var(--accent); letter-spacing: 0.1em; }
+    .section-title { font-family: var(--sans); font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .about-text { font-size: 0.9rem; line-height: 1.8; color: var(--muted); }
+    .about-text p { margin-bottom: 1rem; }
+    .about-text b { color: var(--text); font-weight: 400; }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; text-align: center; transition: border-color 0.2s; }
+    .stat-card:hover { border-color: var(--accent); }
+    .stat-num { font-family: var(--sans); font-size: 2rem; font-weight: 800; color: var(--accent); }
+    .stat-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem; }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .skill-group { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; transition: border-color 0.2s, transform 0.2s; }
+    .skill-group:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .skill-group-title { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag { background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2); color: var(--text); font-size: 0.75rem; padding: 0.3rem 0.75rem; border-radius: 3px; }
+    .tag.purple { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.3); }
+    .tag.green { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.75rem; transition: border-color 0.2s, transform 0.2s; position: relative; overflow: hidden; }
+    .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+    .project-name { font-family: var(--sans); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .project-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.25rem; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .stack-tag { font-size: 0.65rem; color: var(--accent3); background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); padding: 0.2rem 0.5rem; border-radius: 2px; letter-spacing: 0.05em; }
+    .contact-inner { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 3rem; text-align: center; }
+    .contact-title { font-family: var(--sans); font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
+    .contact-sub { color: var(--muted); font-size: 0.85rem; margin-bottom: 2rem; line-height: 1.7; }
+    .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    footer { position: relative; z-index: 1; text-align: center; padding: 2rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.75rem; }
+    footer span { color: var(--accent); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <nav>
+    <div class="nav-logo">AJ.py</div>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </nav>
+  <section id="hero">
+    <p class="hero-label">// Data Scientist & Developer</p>
+    <h1 class="hero-name">Arturo<br/><span>Jiménez</span></h1>
+    <p class="hero-title">Transformando datos en <b>decisiones inteligentes</b></p>
+    <div class="terminal-line">
+      <span class="prompt">$</span> python train_model.py --data world --output insights.json<span class="cursor"></span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">Ver proyectos</a>
+      <a href="https://github.com/McArthurMiller" target="_blank" class="btn btn-outline">GitHub →</a>
+    </div>
+  </section>
+  <section id="about">
+    <div class="section-header fade-in">
+      <span class="section-num">01.</span>
+      <h2 class="section-title">Sobre mí</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid fade-in">
+      <div class="about-text">
+        <p>Soy <b>Arturo Jiménez</b>, Data Scientist y desarrollador de software apasionado por extraer valor de los datos.</p>
+        <p>Me especializo en construir pipelines de datos, modelos de machine learning y soluciones escalables en la nube con <b>AWS</b>.</p>
+        <p>Creo que los datos bien analizados tienen el poder de transformar negocios y mejorar vidas.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card"><div class="stat-num">5+</div><div class="stat-label">Tecnologías</div></div>
+        <div class="stat-card"><div class="stat-num">ML</div><div class="stat-label">Especialidad</div></div>
+        <div class="stat-card"><div class="stat-num">AWS</div><div class="stat-label">Cloud</div></div>
+        <div class="stat-card"><div class="stat-num">∞</div><div class="stat-label">Curiosidad</div></div>
+      </div>
+    </div>
+  </section>
+  <section id="skills">
+    <div class="section-header fade-in">
+      <span class="section-num">02.</span>
+      <h2 class="section-title">Habilidades</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid fade-in">
+      <div class="skill-group">
+        <div class="skill-group-title">// Lenguajes</div>
+        <div class="skill-tags"><span class="tag">Python</span><span class="tag">SQL</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">// Machine Learning</div>
+        <div class="skill-tags"><span class="tag purple">Scikit-learn</span><span class="tag purple">TensorFlow</span><span class="tag purple">ML Pipelines</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">// Cloud & DevOps</div>
+        <div class="skill-tags"><span class="tag green">AWS</span><span class="tag green">GitHub</span><span class="tag green">Git</span></div>
+      </div>
+    </div>
+  </section>
+  <section id="projects">
+    <div class="section-header fade-in">
+      <span class="section-num">03.</span>
+      <h2 class="section-title">Proyectos</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid fade-in">
+      <div class="project-card">
+        <div class="project-icon">📊</div>
+        <div class="project-name">Análisis Exploratorio</div>
+        <div class="project-desc">Pipeline de análisis de datos con visualizaciones automáticas y detección de patrones usando Python y SQL.</div>
+        <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">Pandas</span><span class="stack-tag">SQL</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">🤖</div>
+        <div class="project-name">Modelo Predictivo</div>
+        <div class="project-desc">Modelo de machine learning para predicción de series temporales desplegado en AWS con monitoreo en tiempo real.</div>
+        <div class="project-stack"><span class="stack-tag">ML</span><span class="stack-tag">AWS</span><span class="stack-tag">Python</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">☁️</div>
+        <div class="project-name">Data Pipeline AWS</div>
+        <div class="project-desc">Arquitectura serverless para procesamiento de datos a escala usando S3, Lambda y Glue en Amazon Web Services.</div>
+        <div class="project-stack"><span class="stack-tag">AWS</span><span class="stack-tag">SQL</span><span class="stack-tag">Python</span></div>
+      </div>
+    </div>
+  </section>
+  <section id="contact">
+    <div class="section-header fade-in">
+      <span class="section-num">04.</span>
+      <h2 class="section-title">Contacto</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-inner fade-in">
+      <div class="contact-title">¿Hablamos? 🚀</div>
+      <p class="contact-sub">Estoy abierto a nuevas oportunidades, colaboraciones y proyectos interesantes en el mundo de los datos.</p>
+      <div class="contact-links">
+        <a href="https://github.com/McArthurMiller" target="_blank" class="btn btn-primary">GitHub</a>
+        <a href="mailto:camus9330@gmail.com" class="btn btn-outline">Email</a>
+      </div>
+    </div>
+  </section>
+  <footer><p>Diseñado y construido por <span>Arturo Jiménez</span> · 2026</p></footer>
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
 </html>
